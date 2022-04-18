@@ -20,22 +20,12 @@ class BowlingGame {
 
     fun roll(knockedPins: Int) {
         if (knockedPins.isInRange()) {
-            if (bonusRollAvailable()) {
-                frameList.last().bonusRollKnockedPins = knockedPins
-            } else {
-                run breaking@{
-                    frameList.forEach { frame ->
-                        if (frame.firstRollKnockedPins == INITIAL_VALUE) {
-                            if (knockedPins == TEN) {
-                                frame.secondRollKnockedPins = ZERO
-                            }
-                            frame.firstRollKnockedPins = knockedPins
-                            return@breaking
-                        } else if (frame.secondRollKnockedPins == INITIAL_VALUE) {
-                            frame.secondRollKnockedPins = knockedPins
-                            return@breaking
-                        }
-                    }
+            when {
+                bonusRollAvailable() -> {
+                    addBonusRollToFrameList(knockedPins)
+                }
+                else -> {
+                    addKnockedPinsToFrameList(knockedPins)
                 }
             }
         } else throw GameException.KnockedPinsOutOfRange
@@ -43,6 +33,30 @@ class BowlingGame {
 
     private fun bonusRollAvailable() =
         frameList.last().sum() >= TEN || firstRollInLastFrame().isAStrike()
+
+    private fun addBonusRollToFrameList(knockedPins: Int) {
+        frameList.last().bonusRollKnockedPins = knockedPins
+    }
+
+    private fun addKnockedPinsToFrameList(knockedPins: Int) {
+        run breaking@{
+            frameList.forEach { frame ->
+                when {
+                    frame.firstRollKnockedPins == INITIAL_VALUE -> {
+                        if (knockedPins == TEN) {
+                            frame.secondRollKnockedPins = ZERO
+                        }
+                        frame.firstRollKnockedPins = knockedPins
+                        return@breaking
+                    }
+                    frame.secondRollKnockedPins == INITIAL_VALUE -> {
+                        frame.secondRollKnockedPins = knockedPins
+                        return@breaking
+                    }
+                }
+            }
+        }
+    }
 
     private fun firstRollInLastFrame() = frameList.last().firstRollKnockedPins
 

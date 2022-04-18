@@ -68,6 +68,20 @@ class GameScreenTest {
             .assertTextEquals("Your score is 300")
     }
 
+    @Test
+    fun screenShouldReturnToInitialStateWhenResetIsClicked() {
+        roll(listOf(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10))
+        composeRule.onNodeWithTag(SCORE_BUTTON_TEST_TAG)
+            .performClick()
+        composeRule.onNodeWithTag(RESET_BUTTON_TEST_TAG)
+            .performClick()
+        composeRule.onNodeWithTag(SCORE_SECTION_TEST_TAG)
+            .assertDoesNotExist()
+        composeRule.onNodeWithTag(FRAME_LIST_TEST_TAG)
+            .onChildren()[0]
+            .assertTextEquals("")
+    }
+
     private fun roll(knockedPinsList: List<Int>) {
         for (knockedPins in knockedPinsList) {
             composeRule.onNodeWithTag(PIN_SECTION_TEST_TAG)

@@ -15,6 +15,10 @@ class BowlingGame {
         return frameList
     }
 
+    fun roll(knockedPins: Int) {
+        frameList[0].firstRollKnockedPins = knockedPins
+    }
+
     companion object {
         const val INITIAL_VALUE = -1
         const val ONE = 1

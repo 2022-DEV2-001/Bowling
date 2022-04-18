@@ -39,7 +39,7 @@ class BowlingGame {
                 frame.hasStrike() -> {
                     scoreStrike(index)
                 }
-                else -> frameList.sumOf { it.sum() }
+                else -> frame.sum()
             }
         }
         return score
@@ -89,8 +89,17 @@ class BowlingGame {
      * plus next two rolls
      */
     private fun scoreStrike(frameIndex: Int): Int {
-        return TEN + firstRollInFirstFollowingFrame(frameIndex) +
-            secondRollInFirstFollowingFrame(frameIndex)
+        var scoreStrike = 0
+        scoreStrike += if (firstRollInFirstFollowingFrame(frameIndex).isAStrike() &&
+            secondFollowingFrameAvailable(frameIndex)
+        ) {
+            TEN + firstRollInFirstFollowingFrame(frameIndex) +
+                firstRollInSecondFollowingFrame(frameIndex)
+        } else {
+            TEN + firstRollInFirstFollowingFrame(frameIndex) +
+                secondRollInFirstFollowingFrame(frameIndex)
+        }
+        return scoreStrike
     }
 
     private fun firstRollInFirstFollowingFrame(frameIndex: Int) =
@@ -98,6 +107,11 @@ class BowlingGame {
 
     private fun secondRollInFirstFollowingFrame(frameIndex: Int) =
         frameList[frameIndex + ONE].secondRollKnockedPins
+
+    private fun firstRollInSecondFollowingFrame(rollIndex: Int) =
+        frameList[rollIndex + 2].firstRollKnockedPins
+
+    private fun secondFollowingFrameAvailable(rollIndex: Int) = !lastFrame(rollIndex + 1)
 
     private fun sumOfTwoRollsIsNotGreaterThanTen(
         firstRollKnockedPins: Int,

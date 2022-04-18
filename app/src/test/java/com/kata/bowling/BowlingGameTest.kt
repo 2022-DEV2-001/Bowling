@@ -61,4 +61,17 @@ class BowlingGameTest {
 
         assertThat(result).isEqualTo(expectedList)
     }
+
+    @Test
+    fun `given first roll is a strike in first frame, when get frame list, then updated frame list to be returned with second roll value as 0`() {
+        val expectedList = arrayListOf<Frame>()
+        expectedList.initialValues()
+        expectedList[0].firstRollKnockedPins = 10
+        expectedList[0].secondRollKnockedPins = 0
+
+        game.roll(10)
+        val result = game.getFrameList()
+
+        assertThat(result).isEqualTo(expectedList)
+    }
 }

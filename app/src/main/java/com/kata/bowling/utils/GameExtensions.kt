@@ -9,3 +9,5 @@ fun ArrayList<Frame>.initialValues() =
     repeat((ONE..TEN).count()) {
         this.add(Frame(BowlingGame.INITIAL_VALUE, BowlingGame.INITIAL_VALUE))
     }
+
+fun Int.isAStrike() = this == TEN

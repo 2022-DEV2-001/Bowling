@@ -3,6 +3,7 @@ package com.kata.bowling.utils
 import com.kata.bowling.BowlingGame
 import com.kata.bowling.BowlingGame.Companion.ONE
 import com.kata.bowling.BowlingGame.Companion.TEN
+import com.kata.bowling.BowlingGame.Companion.ZERO
 import com.kata.bowling.model.Frame
 
 fun ArrayList<Frame>.initialValues() =
@@ -11,3 +12,4 @@ fun ArrayList<Frame>.initialValues() =
     }
 
 fun Int.isAStrike() = this == TEN
+fun Int.isInRange() = this in ZERO..TEN

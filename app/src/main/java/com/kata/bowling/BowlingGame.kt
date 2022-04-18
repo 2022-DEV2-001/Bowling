@@ -1,8 +1,10 @@
 package com.kata.bowling
 
 import com.kata.bowling.model.Frame
+import com.kata.bowling.utils.GameException
 import com.kata.bowling.utils.initialValues
 import com.kata.bowling.utils.isAStrike
+import com.kata.bowling.utils.isInRange
 
 class BowlingGame {
     private val frameList = arrayListOf<Frame>()
@@ -16,20 +18,22 @@ class BowlingGame {
     }
 
     fun roll(knockedPins: Int) {
-        run breaking@{
-            frameList.forEach { frame ->
-                if (frame.firstRollKnockedPins == INITIAL_VALUE) {
-                    if (knockedPins.isAStrike()) {
-                        frame.secondRollKnockedPins = ZERO
+        if (knockedPins.isInRange()) {
+            run breaking@{
+                frameList.forEach { frame ->
+                    if (frame.firstRollKnockedPins == INITIAL_VALUE) {
+                        if (knockedPins.isAStrike()) {
+                            frame.secondRollKnockedPins = ZERO
+                        }
+                        frame.firstRollKnockedPins = knockedPins
+                        return@breaking
+                    } else if (frame.secondRollKnockedPins == INITIAL_VALUE) {
+                        frame.secondRollKnockedPins = knockedPins
+                        return@breaking
                     }
-                    frame.firstRollKnockedPins = knockedPins
-                    return@breaking
-                } else if (frame.secondRollKnockedPins == INITIAL_VALUE) {
-                    frame.secondRollKnockedPins = knockedPins
-                    return@breaking
                 }
             }
-        }
+        } else throw GameException.KnockedPinsOutOfRange
     }
 
     companion object {

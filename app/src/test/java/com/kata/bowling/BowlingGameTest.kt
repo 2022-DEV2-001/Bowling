@@ -2,6 +2,7 @@ package com.kata.bowling
 
 import com.google.common.truth.Truth.assertThat
 import com.kata.bowling.model.Frame
+import com.kata.bowling.utils.GameException
 import com.kata.bowling.utils.initialValues
 import org.junit.Test
 
@@ -94,6 +95,16 @@ class BowlingGameTest {
         val result = game.getFrameList()
 
         assertThat(result).isEqualTo(expectedList)
+    }
+
+    /**
+     * A frame contains only 10 pins
+     * so a player can only knock 10 pins
+     * more than that is impossible
+     **/
+    @Test(expected = GameException.KnockedPinsOutOfRange::class)
+    fun `given 11 pins knocked in an attempt, when roll, should throw exception`() {
+        game.roll(11)
     }
 
     private fun roll(list: List<Int>) {

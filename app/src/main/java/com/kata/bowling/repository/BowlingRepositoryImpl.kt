@@ -7,4 +7,8 @@ class BowlingRepositoryImpl(private val bowlingGame: BowlingGame) : BowlingRepos
     override fun getFrameList(): List<Frame> {
         return bowlingGame.getFrameList()
     }
+
+    override fun roll(knockedPins: Int) {
+        bowlingGame.roll(knockedPins)
+    }
 }

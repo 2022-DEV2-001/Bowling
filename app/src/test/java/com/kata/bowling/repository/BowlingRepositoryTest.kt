@@ -49,4 +49,13 @@ class BowlingRepositoryTest {
 
         assertThat(result).isEqualTo(frameList)
     }
+
+    @Test
+    fun `given bowling repository, when roll, verify roll method is invoked `() {
+        bowlingRepository.roll(5)
+
+        verify {
+            bowlingGame.roll(5)
+        }
+    }
 }

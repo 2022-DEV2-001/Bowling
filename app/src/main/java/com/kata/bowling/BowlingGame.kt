@@ -15,11 +15,16 @@ class BowlingGame {
     }
 
     fun roll(knockedPins: Int) {
-        frameList[0].firstRollKnockedPins = knockedPins
+        if (frameList[ZERO].firstRollKnockedPins == INITIAL_VALUE) {
+            frameList[ZERO].firstRollKnockedPins = knockedPins
+        } else {
+            frameList[ZERO].secondRollKnockedPins = knockedPins
+        }
     }
 
     companion object {
         const val INITIAL_VALUE = -1
+        const val ZERO = 0
         const val ONE = 1
         const val TEN = 10
     }

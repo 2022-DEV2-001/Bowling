@@ -31,6 +31,10 @@ class BowlingGame {
         } else throw GameException.KnockedPinsOutOfRange
     }
 
+    fun score(): Int {
+        return 0
+    }
+
     private fun bonusRollAvailable() =
         frameList.last().sum() >= TEN || firstRollInLastFrame().isAStrike()
 

@@ -193,6 +193,21 @@ class BowlingGameTest {
         assertThat(result).isEqualTo(expectedList)
     }
 
+    /**
+     * when no pin is knocked in a roll it is called as a miss
+     */
+    @Test
+    fun `given miss in all frames, when score, then returns score 0`() {
+        val expectedResult = 0
+
+        for (i in 0..19) {
+            game.roll(0)
+        }
+        val result = game.score()
+
+        assertThat(expectedResult).isEqualTo(result)
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

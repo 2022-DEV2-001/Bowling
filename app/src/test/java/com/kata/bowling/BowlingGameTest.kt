@@ -231,6 +231,15 @@ class BowlingGameTest {
         assertThat(expectedResult).isEqualTo(result)
     }
 
+    @Test
+    fun `given first roll is a strike, when score, returns expected score 28`() {
+        val expectedResult = 28
+        roll(listOf(10, 5, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+        val result = game.score()
+
+        assertThat(expectedResult).isEqualTo(result)
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

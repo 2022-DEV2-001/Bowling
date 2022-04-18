@@ -2,6 +2,7 @@ package com.kata.bowling
 
 import com.kata.bowling.model.Frame
 import com.kata.bowling.utils.GameException
+import com.kata.bowling.utils.hasStrike
 import com.kata.bowling.utils.initialValues
 import com.kata.bowling.utils.isAStrike
 import com.kata.bowling.utils.isInRange
@@ -32,7 +33,16 @@ class BowlingGame {
     }
 
     fun score(): Int {
-        return frameList.sumOf { it.sum() }
+        var score = 0
+        frameList.forEachIndexed { index, frame ->
+            score += when {
+                frame.hasStrike() -> {
+                    scoreStrike(index)
+                }
+                else -> frameList.sumOf { it.sum() }
+            }
+        }
+        return score
     }
 
     private fun bonusRollAvailable() =
@@ -73,6 +83,21 @@ class BowlingGame {
             }
         }
     }
+
+    /**
+     * if a roll is a strike the score for that roll will be sum of current roll
+     * plus next two rolls
+     */
+    private fun scoreStrike(frameIndex: Int): Int {
+        return TEN + firstRollInFirstFollowingFrame(frameIndex) +
+            secondRollInFirstFollowingFrame(frameIndex)
+    }
+
+    private fun firstRollInFirstFollowingFrame(frameIndex: Int) =
+        frameList[frameIndex + ONE].firstRollKnockedPins
+
+    private fun secondRollInFirstFollowingFrame(frameIndex: Int) =
+        frameList[frameIndex + ONE].secondRollKnockedPins
 
     private fun sumOfTwoRollsIsNotGreaterThanTen(
         firstRollKnockedPins: Int,

@@ -15,3 +15,6 @@ fun Int.isAStrike() = this == TEN
 fun Int.isInRange() = this in ZERO..TEN
 fun Frame.sum() =
     this.firstRollKnockedPins + this.secondRollKnockedPins
+
+fun Frame.hasStrike() =
+    this.firstRollKnockedPins.isAStrike()

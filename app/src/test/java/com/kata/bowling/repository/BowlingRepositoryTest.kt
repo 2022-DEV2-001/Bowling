@@ -1,7 +1,10 @@
 package com.kata.bowling.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.google.common.truth.Truth.assertThat
 import com.kata.bowling.BowlingGame
+import com.kata.bowling.model.Frame
+import com.kata.bowling.utils.initialValues
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -34,5 +37,16 @@ class BowlingRepositoryTest {
         verify {
             bowlingGame.getFrameList()
         }
+    }
+
+    @Test
+    fun `given bowling repository, when get frame list, then frame list to be returned`() {
+        val frameList = arrayListOf<Frame>()
+        frameList.initialValues()
+        every { bowlingGame.getFrameList() } returns frameList
+
+        val result = bowlingRepository.getFrameList()
+
+        assertThat(result).isEqualTo(frameList)
     }
 }

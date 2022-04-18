@@ -2,6 +2,7 @@ package com.kata.bowling
 
 import com.kata.bowling.model.Frame
 import com.kata.bowling.utils.GameException
+import com.kata.bowling.utils.hasSpare
 import com.kata.bowling.utils.hasStrike
 import com.kata.bowling.utils.initialValues
 import com.kata.bowling.utils.isAStrike
@@ -38,6 +39,9 @@ class BowlingGame {
             score += when {
                 frame.hasStrike() -> {
                     scoreStrike(index)
+                }
+                frame.hasSpare() -> {
+                    scoreSpare(index)
                 }
                 else -> frame.sum()
             }
@@ -99,6 +103,21 @@ class BowlingGame {
             }
         }
         return strikeScore
+    }
+
+    /**
+     * if the sum of two rolls in a frame is a spare
+     * then add the knocked pins in the following roll to current frame
+     * if the sum of two in a last frame is a spare
+     * then add bonus roll knocked pins
+     */
+    private fun scoreSpare(frameIndex: Int): Int {
+        var spareScore = 10
+        spareScore += if (!lastFrame(frameIndex))
+            firstRollInFirstFollowingFrame(frameIndex)
+        else
+            frameList[frameIndex].bonusRollKnockedPins
+        return spareScore
     }
 
     private fun scoreStrikeUntilLastFrame(rollIndex: Int) =

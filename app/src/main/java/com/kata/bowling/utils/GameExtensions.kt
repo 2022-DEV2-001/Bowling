@@ -18,3 +18,6 @@ fun Frame.sum() =
 
 fun Frame.hasStrike() =
     this.firstRollKnockedPins.isAStrike()
+
+fun Frame.hasSpare() =
+    this.sum() == TEN

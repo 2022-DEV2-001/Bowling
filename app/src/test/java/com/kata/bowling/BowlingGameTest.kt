@@ -107,6 +107,11 @@ class BowlingGameTest {
         game.roll(11)
     }
 
+    @Test(expected = GameException.KnockedPinsOutOfRange::class)
+    fun `given less than 0 pin knocked in an attempt, when roll, should throw exception`() {
+        game.roll(-1)
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

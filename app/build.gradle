@@ -77,4 +77,11 @@ dependencies {
     testImplementation "io.mockk:mockk:1.12.2"
 
     testImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    // android testing
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.37'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.40.5'
+    androidTestImplementation "junit:junit:4.13.2"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1"
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 }

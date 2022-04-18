@@ -66,4 +66,16 @@ class BowlingGameViewModelTest {
 
         assertThat(result).isNotEmpty()
     }
+
+    @Test
+    fun `given view model , when get score, then score to be returned`() {
+        every { bowlingGame.score() } returns 150
+
+        viewModel.getScore()
+
+        var result = 0
+        viewModel.gameState.value?.forEach { result = it.score }
+
+        assertThat(result).isEqualTo(150)
+    }
 }

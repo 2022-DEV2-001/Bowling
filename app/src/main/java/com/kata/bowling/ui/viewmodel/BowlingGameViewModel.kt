@@ -32,6 +32,15 @@ class BowlingGameViewModel(
         }
     }
 
+    fun getScore() {
+        runCatching {
+            val score = bowlingRepository.getScore()
+            updateGameState(frameList = frameList, score = score)
+        }.getOrElse { t ->
+            handleError(t)
+        }
+    }
+
     private fun handleError(t: Throwable) {
         when (t as GameException) {
             is GameException.KnockedPinsOutOfRange -> {

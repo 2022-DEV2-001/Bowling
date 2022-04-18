@@ -41,6 +41,12 @@ class BowlingGameViewModel(
         }
     }
 
+    fun resetGame() {
+        bowlingRepository.resetFrameList()
+        val frameList = bowlingRepository.getFrameList()
+        updateGameState(frameList = frameList)
+    }
+
     private fun handleError(t: Throwable) {
         when (t as GameException) {
             is GameException.KnockedPinsOutOfRange -> {

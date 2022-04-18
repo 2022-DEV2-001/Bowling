@@ -6,6 +6,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.kata.bowling.BowlingGame
 import com.kata.bowling.model.Frame
+import com.kata.bowling.model.GameState
 import com.kata.bowling.repository.BowlingRepository
 import com.kata.bowling.repository.BowlingRepositoryImpl
 import com.kata.bowling.utils.GameException
@@ -77,5 +78,20 @@ class BowlingGameViewModelTest {
         viewModel.gameState.value?.forEach { result = it.score }
 
         assertThat(result).isEqualTo(150)
+    }
+
+    @Test
+    fun `given view model , when reset game, then game state should be returned to initial state`() {
+        val frameList = arrayListOf<Frame>()
+        frameList.initialValues()
+        every { bowlingGame.getFrameList() } returns frameList
+
+        viewModel.resetGame()
+        var result = GameState()
+        viewModel.gameState.value?.forEach { result = it }
+
+        assertThat(result.frameList).isEqualTo(frameList)
+        assertThat(result.score).isEqualTo(0)
+        assertThat(result.error).isEqualTo("")
     }
 }

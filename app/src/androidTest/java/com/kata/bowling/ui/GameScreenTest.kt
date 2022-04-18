@@ -57,4 +57,21 @@ class GameScreenTest {
             .onChildren()[0]
             .assertTextEquals("3")
     }
+
+    @Test
+    fun screenShouldDisplayScoreWhenCalculateScoreIsClickedAfterFillingAllTheFrames() {
+        roll(listOf(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10))
+        composeRule.onNodeWithTag(SCORE_BUTTON_TEST_TAG)
+            .performClick()
+        composeRule.onNodeWithTag(SCORE_SECTION_TEST_TAG)
+            .assertIsDisplayed()
+            .assertTextEquals("Your score is 300")
+    }
+
+    private fun roll(knockedPinsList: List<Int>) {
+        for (knockedPins in knockedPinsList) {
+            composeRule.onNodeWithTag(PIN_SECTION_TEST_TAG)
+                .onChildren()[knockedPins].performClick()
+        }
+    }
 }

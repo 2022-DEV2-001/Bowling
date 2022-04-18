@@ -15,10 +15,16 @@ class BowlingGame {
     }
 
     fun roll(knockedPins: Int) {
-        if (frameList[ZERO].firstRollKnockedPins == INITIAL_VALUE) {
-            frameList[ZERO].firstRollKnockedPins = knockedPins
-        } else {
-            frameList[ZERO].secondRollKnockedPins = knockedPins
+        run breaking@{
+            frameList.forEach { frame ->
+                if (frame.firstRollKnockedPins == INITIAL_VALUE) {
+                    frame.firstRollKnockedPins = knockedPins
+                    return@breaking
+                } else if (frame.secondRollKnockedPins == INITIAL_VALUE) {
+                    frame.secondRollKnockedPins = knockedPins
+                    return@breaking
+                }
+            }
         }
     }
 

@@ -11,8 +11,11 @@ import com.kata.bowling.model.GameState
 import com.kata.bowling.repository.BowlingRepository
 import com.kata.bowling.utils.GameException
 import com.kata.bowling.utils.ResourcesProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class BowlingGameViewModel(
+@HiltViewModel
+class BowlingGameViewModel @Inject constructor(
     private val bowlingRepository: BowlingRepository,
     private val resourcesProvider: ResourcesProvider
 ) : ViewModel() {

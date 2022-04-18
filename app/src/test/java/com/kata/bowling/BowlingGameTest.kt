@@ -297,6 +297,18 @@ class BowlingGameTest {
         game.score()
     }
 
+    @Test
+    fun `given frames filled, when reset, then frames to be set to initial value`() {
+        val expectedList = arrayListOf<Frame>()
+        expectedList.initialValues()
+
+        roll(listOf(10, 9, 1, 6, 4, 3, 6, 8, 2, 4, 5, 3, 6, 5, 5, 4, 5, 5, 5, 4))
+        game.resetFrameList()
+        val result = game.getFrameList()
+
+        assertThat(expectedList).isEqualTo(result)
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

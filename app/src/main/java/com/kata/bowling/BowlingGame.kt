@@ -51,6 +51,11 @@ class BowlingGame {
         } else throw GameException.FramesNotFilled
     }
 
+    fun resetFrameList() {
+        frameList.clear()
+        frameList.initialValues()
+    }
+
     private fun bonusRollAvailable() =
         frameList.last().sum() >= TEN || firstRollInLastFrame().isAStrike()
 

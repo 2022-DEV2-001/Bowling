@@ -35,7 +35,7 @@ class BowlingGame {
 
     fun score(): Int {
         if (maxLengthReached()) {
-            var score = 0
+            var score = ZERO
             frameList.forEachIndexed { index, frame ->
                 score += when {
                     frame.hasStrike() -> {
@@ -131,7 +131,7 @@ class BowlingGame {
      * plus next two rolls
      */
     private fun scoreStrike(frameIndex: Int): Int {
-        var strikeScore = 0
+        var strikeScore = ZERO
         strikeScore += when {
             !lastFrame(frameIndex) -> {
                 scoreStrikeUntilLastFrame(frameIndex)
@@ -150,7 +150,7 @@ class BowlingGame {
      * then add bonus roll knocked pins
      */
     private fun scoreSpare(frameIndex: Int): Int {
-        var spareScore = 10
+        var spareScore = TEN
         spareScore += if (!lastFrame(frameIndex))
             firstRollInFirstFollowingFrame(frameIndex)
         else
@@ -180,7 +180,7 @@ class BowlingGame {
         frameList[frameIndex + ONE].secondRollKnockedPins
 
     private fun firstRollInSecondFollowingFrame(rollIndex: Int) =
-        frameList[rollIndex + 2].firstRollKnockedPins
+        frameList[rollIndex + TWO].firstRollKnockedPins
 
     private fun secondFollowingFrameAvailable(rollIndex: Int) = !lastFrame(rollIndex + 1)
 
@@ -197,6 +197,7 @@ class BowlingGame {
         const val INITIAL_VALUE = -1
         const val ZERO = 0
         const val ONE = 1
+        const val TWO = 2
         const val TEN = 10
     }
 }

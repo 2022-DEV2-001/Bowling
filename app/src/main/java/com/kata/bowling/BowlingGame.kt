@@ -70,26 +70,41 @@ class BowlingGame {
                 frameList.forEachIndexed { index, frame ->
                     when {
                         frame.firstRollKnockedPins == INITIAL_VALUE -> {
-                            if (knockedPins == TEN && !lastFrame(index)) {
-                                frame.secondRollKnockedPins = ZERO
-                            }
-                            frame.firstRollKnockedPins = knockedPins
+                            addKnockedPinsToFirstRollInFrame(knockedPins, index, frame)
                             return@breaking
                         }
                         frame.secondRollKnockedPins == INITIAL_VALUE -> {
-                            if (sumOfTwoRollsIsNotGreaterThanTen(
-                                    frame.firstRollKnockedPins,
-                                    knockedPins
-                                )
-                            ) {
-                                frame.secondRollKnockedPins = knockedPins
-                            } else throw GameException.SumOfPinsOutOfRange
+                            addKnockedPinsToSecondRollInFrame(frame, knockedPins)
                             return@breaking
                         }
                     }
                 }
             }
         } else throw GameException.MaxSizeReached
+    }
+
+    private fun addKnockedPinsToSecondRollInFrame(
+        frame: Frame,
+        knockedPins: Int
+    ) {
+        if (sumOfTwoRollsIsNotGreaterThanTen(
+                frame.firstRollKnockedPins,
+                knockedPins
+            )
+        ) {
+            frame.secondRollKnockedPins = knockedPins
+        } else throw GameException.SumOfPinsOutOfRange
+    }
+
+    private fun addKnockedPinsToFirstRollInFrame(
+        knockedPins: Int,
+        index: Int,
+        frame: Frame
+    ) {
+        if (knockedPins == TEN && !lastFrame(index)) {
+            frame.secondRollKnockedPins = ZERO
+        }
+        frame.firstRollKnockedPins = knockedPins
     }
 
     /**

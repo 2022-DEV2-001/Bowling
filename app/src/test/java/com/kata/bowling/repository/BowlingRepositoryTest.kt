@@ -58,4 +58,13 @@ class BowlingRepositoryTest {
             bowlingGame.roll(5)
         }
     }
+
+    @Test
+    fun `given bowling repository, when get score, verify score method is invoked `() {
+        bowlingRepository.getScore()
+
+        verify {
+            bowlingGame.score()
+        }
+    }
 }

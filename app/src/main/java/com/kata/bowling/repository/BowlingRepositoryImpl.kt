@@ -11,4 +11,8 @@ class BowlingRepositoryImpl(private val bowlingGame: BowlingGame) : BowlingRepos
     override fun roll(knockedPins: Int) {
         bowlingGame.roll(knockedPins)
     }
+
+    override fun getScore(): Int {
+        return bowlingGame.score()
+    }
 }

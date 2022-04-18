@@ -25,6 +25,11 @@ class BowlingGameViewModel @Inject constructor(
     private val _gameState = MutableLiveData<SnapshotStateList<GameState>>()
     val gameState: LiveData<SnapshotStateList<GameState>> get() = _gameState
 
+    init {
+        frameList = bowlingRepository.getFrameList()
+        updateGameState(frameList = frameList)
+    }
+
     fun roll(knockedPins: Int) {
         runCatching {
             bowlingRepository.roll(knockedPins)

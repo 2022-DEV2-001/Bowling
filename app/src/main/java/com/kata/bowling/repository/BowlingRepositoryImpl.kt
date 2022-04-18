@@ -2,8 +2,10 @@ package com.kata.bowling.repository
 
 import com.kata.bowling.BowlingGame
 import com.kata.bowling.model.Frame
+import javax.inject.Inject
 
-class BowlingRepositoryImpl(private val bowlingGame: BowlingGame) : BowlingRepository {
+class BowlingRepositoryImpl @Inject constructor
+(private val bowlingGame: BowlingGame) : BowlingRepository {
     override fun getFrameList(): List<Frame> {
         return bowlingGame.getFrameList()
     }

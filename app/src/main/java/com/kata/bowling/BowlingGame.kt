@@ -50,13 +50,24 @@ class BowlingGame {
                         return@breaking
                     }
                     frame.secondRollKnockedPins == INITIAL_VALUE -> {
-                        frame.secondRollKnockedPins = knockedPins
+                        if (sumOfTwoRollsIsNotGreaterThanTen(
+                                frame.firstRollKnockedPins,
+                                knockedPins
+                            )
+                        ) {
+                            frame.secondRollKnockedPins = knockedPins
+                        } else throw GameException.SumOfPinsOutOfRange
                         return@breaking
                     }
                 }
             }
         }
     }
+
+    private fun sumOfTwoRollsIsNotGreaterThanTen(
+        firstRollKnockedPins: Int,
+        secondRollKnockedPins: Int
+    ) = firstRollKnockedPins + secondRollKnockedPins <= TEN
 
     private fun firstRollInLastFrame() = frameList.last().firstRollKnockedPins
 

@@ -158,6 +158,16 @@ class BowlingGameTest {
         assertThat(result).isEqualTo(expectedList)
     }
 
+    /**
+     * the sum of two rolls in a frame cannot be greater than 10
+     * as there are only ten pins per frame
+     */
+    @Test(expected = GameException.SumOfPinsOutOfRange::class)
+    fun `given knocked pins (5,6), when roll, then throw exception`() {
+        game.roll(5)
+        game.roll(6)
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

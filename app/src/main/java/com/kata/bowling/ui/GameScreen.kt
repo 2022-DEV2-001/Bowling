@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +23,12 @@ import com.kata.bowling.ui.components.PinsButton
 import com.kata.bowling.ui.viewmodel.BowlingGameViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+
+const val PIN_SECTION_TEST_TAG = "pinSection"
+const val FRAME_LIST_TEST_TAG = "FrameList"
+const val SCORE_SECTION_TEST_TAG = "scoreSection"
+const val SCORE_BUTTON_TEST_TAG = "scoreButton"
+const val RESET_BUTTON_TEST_TAG = "resetButton"
 
 @Composable
 fun GameScreen(
@@ -56,7 +63,8 @@ private fun PinsSection(onPinSelected: (String) -> Unit) {
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(vertical = 20.dp, horizontal = 10.dp),
+            .padding(vertical = 20.dp, horizontal = 10.dp)
+            .testTag(PIN_SECTION_TEST_TAG),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         (0..10).forEach { text ->
@@ -82,6 +90,7 @@ private fun FrameSection(
         frameList = state.frameList,
         modifier = Modifier
             .fillMaxWidth()
+            .testTag(FRAME_LIST_TEST_TAG)
     )
 }
 
@@ -90,7 +99,8 @@ private fun ScoreSection(score: Int) {
     if (score != 0) {
         Text(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag(SCORE_SECTION_TEST_TAG),
             text = "${stringResource(R.string.score_message)} $score",
             style = TextStyle(
                 fontSize = 20.sp,
@@ -117,6 +127,7 @@ private fun ButtonSection(
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 10.dp)
+                .testTag(SCORE_BUTTON_TEST_TAG)
         ) {
             Text(text = stringResource(R.string.calculate_score))
         }
@@ -125,6 +136,7 @@ private fun ButtonSection(
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 10.dp)
+                .testTag(RESET_BUTTON_TEST_TAG)
         ) {
             Text(text = stringResource(R.string.reset_game))
         }

@@ -13,3 +13,5 @@ fun ArrayList<Frame>.initialValues() =
 
 fun Int.isAStrike() = this == TEN
 fun Int.isInRange() = this in ZERO..TEN
+fun Frame.sum() =
+    this.firstRollKnockedPins + this.secondRollKnockedPins

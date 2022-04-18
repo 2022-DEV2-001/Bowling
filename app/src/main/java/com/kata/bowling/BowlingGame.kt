@@ -3,7 +3,9 @@ package com.kata.bowling
 import com.kata.bowling.model.Frame
 import com.kata.bowling.utils.GameException
 import com.kata.bowling.utils.initialValues
+import com.kata.bowling.utils.isAStrike
 import com.kata.bowling.utils.isInRange
+import com.kata.bowling.utils.sum
 
 class BowlingGame {
     private val frameList = arrayListOf<Frame>()
@@ -40,9 +42,9 @@ class BowlingGame {
     }
 
     private fun bonusRollAvailable() =
-        frameList.last().firstRollKnockedPins +
-            frameList.last().secondRollKnockedPins >= TEN ||
-            frameList.last().firstRollKnockedPins == TEN
+        frameList.last().sum() >= TEN || firstRollInLastFrame().isAStrike()
+
+    private fun firstRollInLastFrame() = frameList.last().firstRollKnockedPins
 
     companion object {
         const val INITIAL_VALUE = -1

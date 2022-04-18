@@ -117,7 +117,7 @@ class BowlingGameTest {
      * in final frame if  a spare is present, then bonus roll is available
      */
     @Test
-    fun `given spare in last frame and roll, when get frame list, then bonus roll is updated in list`() {
+    fun `given spare in last frame and roll, when get frame list, then updated to be returned with bonus roll`() {
         val expectedList = listOf(
             Frame(5, 4),
             Frame(10, 0),

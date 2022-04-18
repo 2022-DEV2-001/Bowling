@@ -89,6 +89,15 @@ class GameScreenTest {
             .assertIsDisplayed()
     }
 
+    @Test
+    fun shouldShowSnackBarWhenCalculateScoreIsClickedBeforeFillingAllTheFrames() {
+        roll(listOf(4))
+        composeRule.onNodeWithTag(SCORE_BUTTON_TEST_TAG)
+            .performClick()
+        composeRule.onNodeWithText(composeRule.activity.getString(R.string.frames_not_filled_error))
+            .assertIsDisplayed()
+    }
+
     private fun roll(knockedPinsList: List<Int>) {
         for (knockedPins in knockedPinsList) {
             composeRule.onNodeWithTag(PIN_SECTION_TEST_TAG)

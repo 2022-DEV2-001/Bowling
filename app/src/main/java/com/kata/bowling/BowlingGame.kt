@@ -89,18 +89,32 @@ class BowlingGame {
      * plus next two rolls
      */
     private fun scoreStrike(frameIndex: Int): Int {
-        var scoreStrike = 0
-        scoreStrike += if (firstRollInFirstFollowingFrame(frameIndex).isAStrike() &&
-            secondFollowingFrameAvailable(frameIndex)
-        ) {
-            TEN + firstRollInFirstFollowingFrame(frameIndex) +
-                firstRollInSecondFollowingFrame(frameIndex)
-        } else {
-            TEN + firstRollInFirstFollowingFrame(frameIndex) +
-                secondRollInFirstFollowingFrame(frameIndex)
+        var strikeScore = 0
+        strikeScore += when {
+            !lastFrame(frameIndex) -> {
+                scoreStrikeUntilLastFrame(frameIndex)
+            }
+            else -> {
+                scoreStrikeForLastFrame(frameIndex)
+            }
         }
-        return scoreStrike
+        return strikeScore
     }
+
+    private fun scoreStrikeUntilLastFrame(rollIndex: Int) =
+        if (firstRollInFirstFollowingFrame(rollIndex).isAStrike() &&
+            secondFollowingFrameAvailable(rollIndex)
+        ) {
+            TEN + firstRollInFirstFollowingFrame(rollIndex) +
+                firstRollInSecondFollowingFrame(rollIndex)
+        } else {
+            TEN + firstRollInFirstFollowingFrame(rollIndex) +
+                secondRollInFirstFollowingFrame(rollIndex)
+        }
+
+    private fun scoreStrikeForLastFrame(rollIndex: Int) =
+        TEN + frameList[rollIndex].secondRollKnockedPins +
+            frameList[rollIndex].bonusRollKnockedPins
 
     private fun firstRollInFirstFollowingFrame(frameIndex: Int) =
         frameList[frameIndex + ONE].firstRollKnockedPins

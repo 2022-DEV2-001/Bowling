@@ -2,6 +2,7 @@ package com.kata.bowling
 
 import com.google.common.truth.Truth.assertThat
 import com.kata.bowling.model.Frame
+import com.kata.bowling.utils.initialValues
 import org.junit.Test
 
 class BowlingGameTest {
@@ -10,9 +11,7 @@ class BowlingGameTest {
     @Test
     fun `given game, when get frame list, then initial frame list to be returned`() {
         val expectedList = arrayListOf<Frame>()
-        repeat((1..10).count()) {
-            expectedList.add(Frame(-1, -1))
-        }
+        expectedList.initialValues()
 
         val result = game.getFrameList()
 
@@ -22,9 +21,7 @@ class BowlingGameTest {
     @Test
     fun `given 5 pins knocked for first roll in first frame, when get frame list, then updated frameList to be returned`() {
         val expectedList = arrayListOf<Frame>()
-        repeat((1..10).count()) {
-            expectedList.add(Frame(-1, -1))
-        }
+        expectedList.initialValues()
         expectedList[0].firstRollKnockedPins = 5
 
         game.roll(5)

@@ -1,14 +1,13 @@
 package com.kata.bowling
 
 import com.kata.bowling.model.Frame
+import com.kata.bowling.utils.initialValues
 
 class BowlingGame {
     private val frameList = arrayListOf<Frame>()
 
     init {
-        repeat((ONE..TEN).count()) {
-            frameList.add(Frame(INITIAL_VALUE, INITIAL_VALUE))
-        }
+        frameList.initialValues()
     }
 
     fun getFrameList(): List<Frame> {

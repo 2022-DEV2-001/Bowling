@@ -173,7 +173,7 @@ class BowlingGame {
         spareScore += if (!lastFrame(frameIndex))
             firstRollInFirstFollowingFrame(frameIndex)
         else
-            frameList[frameIndex].bonusRollKnockedPins
+            bonusRollInCurrentFrame(frameIndex)
         return spareScore
     }
 
@@ -189,8 +189,14 @@ class BowlingGame {
         }
 
     private fun scoreStrikeForLastFrame(rollIndex: Int) =
-        TEN + frameList[rollIndex].secondRollKnockedPins +
-            frameList[rollIndex].bonusRollKnockedPins
+        TEN + secondRollInCurrentFrame(rollIndex) +
+            bonusRollInCurrentFrame(rollIndex)
+
+    private fun secondRollInCurrentFrame(rollIndex: Int) =
+        frameList[rollIndex].secondRollKnockedPins
+
+    private fun bonusRollInCurrentFrame(rollIndex: Int) =
+        frameList[rollIndex].bonusRollKnockedPins
 
     private fun firstRollInFirstFollowingFrame(frameIndex: Int) =
         frameList[frameIndex + ONE].firstRollKnockedPins

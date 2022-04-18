@@ -112,6 +112,31 @@ class BowlingGameTest {
         game.roll(-1)
     }
 
+    /**If the sum of two rolls in a frame is equal to 10
+     * it is called a spare
+     * in final frame if  a spare is present, then bonus roll is available
+     */
+    @Test
+    fun `given spare in last frame and roll, when get frame list, then bonus roll is updated in list`() {
+        val expectedList = listOf(
+            Frame(5, 4),
+            Frame(10, 0),
+            Frame(10, 0),
+            Frame(9, 1),
+            Frame(8, 2),
+            Frame(7, 2),
+            Frame(6, 3),
+            Frame(3, 4),
+            Frame(5, 4),
+            Frame(3, 7, 10),
+        )
+
+        roll(listOf(5, 4, 10, 10, 9, 1, 8, 2, 7, 2, 6, 3, 3, 4, 5, 4, 3, 7, 10))
+        val result = game.getFrameList()
+
+        assertThat(result).isEqualTo(expectedList)
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

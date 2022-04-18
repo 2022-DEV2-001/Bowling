@@ -291,6 +291,12 @@ class BowlingGameTest {
         game.score()
     }
 
+    @Test(expected = GameException.SumOfPinsOutOfRange::class)
+    fun `given second roll in last frame and bonus roll, when score, then throw exception`() {
+        roll(listOf(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 5, 6))
+        game.score()
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

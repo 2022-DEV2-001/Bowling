@@ -55,13 +55,27 @@ class BowlingGame {
         frameList.last().sum() >= TEN || firstRollInLastFrame().isAStrike()
 
     private fun addBonusRollToFrameList(knockedPins: Int) {
-        if (firstRollInLastFrame().isAStrike() &&
-            secondRollInLastFrame() == INITIAL_VALUE
-        ) {
-            frameList.last().secondRollKnockedPins = knockedPins
-        } else {
-            frameList.last().bonusRollKnockedPins = knockedPins
+        when {
+            firstRollInLastFrame().isAStrike() &&
+                secondRollInLastFrame() == INITIAL_VALUE -> {
+                frameList.last().secondRollKnockedPins = knockedPins
+            }
+            bonusRollHasInitialValue() -> {
+                addBonusRollKnockedPinsToFrame(knockedPins)
+            }
+            else -> {
+                throw GameException.MaxSizeReached
+            }
         }
+    }
+
+    private fun addBonusRollKnockedPinsToFrame(knockedPins: Int) {
+        if (secondRollInLastFrame().isAStrike() ||
+            sumOfTwoRollsIsNotGreaterThanTen(secondRollInLastFrame(), knockedPins) ||
+            frameList.last().hasSpare()
+        ) {
+            frameList.last().bonusRollKnockedPins = knockedPins
+        } else throw GameException.SumOfPinsOutOfRange
     }
 
     private fun addKnockedPinsToFrameList(knockedPins: Int) {
@@ -117,7 +131,7 @@ class BowlingGame {
             bonusRollAvailable() -> {
                 firstRollInLastFrame() != INITIAL_VALUE &&
                     frameList.last().secondRollKnockedPins != INITIAL_VALUE &&
-                    frameList.last().bonusRollKnockedPins != INITIAL_VALUE
+                    !bonusRollHasInitialValue()
             }
             else -> {
                 firstRollInLastFrame() != INITIAL_VALUE &&
@@ -192,6 +206,8 @@ class BowlingGame {
     private fun firstRollInLastFrame() = frameList.last().firstRollKnockedPins
     private fun secondRollInLastFrame() = frameList.last().secondRollKnockedPins
     private fun lastFrame(index: Int) = index == frameList.size - ONE
+    private fun bonusRollHasInitialValue() =
+        frameList.last().bonusRollKnockedPins == INITIAL_VALUE
 
     companion object {
         const val INITIAL_VALUE = -1

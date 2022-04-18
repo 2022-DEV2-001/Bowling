@@ -82,6 +82,13 @@ class GameScreenTest {
             .assertTextEquals("")
     }
 
+    @Test
+    fun shouldShowSnackBarWhenSumOfTwoRollsIsGreaterThan10() {
+        roll(listOf(4, 7))
+        composeRule.onNodeWithText(composeRule.activity.getString(R.string.sum_of_pins_error_message))
+            .assertIsDisplayed()
+    }
+
     private fun roll(knockedPinsList: List<Int>) {
         for (knockedPins in knockedPinsList) {
             composeRule.onNodeWithTag(PIN_SECTION_TEST_TAG)

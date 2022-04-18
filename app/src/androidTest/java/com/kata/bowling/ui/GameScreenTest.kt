@@ -48,4 +48,13 @@ class GameScreenTest {
             .assertIsDisplayed()
             .assertTextEquals(composeRule.activity.getString(R.string.reset_game))
     }
+
+    @Test
+    fun onClickingPinsTheFrameListSectionShouldBeUpdated() {
+        composeRule.onNodeWithTag(PIN_SECTION_TEST_TAG)
+            .onChildren()[3].performClick()
+        composeRule.onNodeWithTag(FRAME_LIST_TEST_TAG)
+            .onChildren()[0]
+            .assertTextEquals("3")
+    }
 }

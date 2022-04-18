@@ -137,6 +137,27 @@ class BowlingGameTest {
         assertThat(result).isEqualTo(expectedList)
     }
 
+    @Test
+    fun `given last frame is neither a strike nor a spare, when roll, then updated frame list to be returned without bonus roll`() {
+        val expectedList = listOf(
+            Frame(5, 4),
+            Frame(10, 0),
+            Frame(10, 0),
+            Frame(9, 1),
+            Frame(8, 2),
+            Frame(7, 2),
+            Frame(6, 3),
+            Frame(3, 4),
+            Frame(5, 4),
+            Frame(3, 6)
+        )
+
+        roll(listOf(5, 4, 10, 10, 9, 1, 8, 2, 7, 2, 6, 3, 3, 4, 5, 4, 3, 6))
+        val result = game.getFrameList()
+
+        assertThat(result).isEqualTo(expectedList)
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

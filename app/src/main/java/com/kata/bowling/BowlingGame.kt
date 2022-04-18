@@ -35,15 +35,21 @@ class BowlingGame {
         frameList.last().sum() >= TEN || firstRollInLastFrame().isAStrike()
 
     private fun addBonusRollToFrameList(knockedPins: Int) {
-        frameList.last().bonusRollKnockedPins = knockedPins
+        if (firstRollInLastFrame().isAStrike() &&
+            secondRollInLastFrame() == INITIAL_VALUE
+        ) {
+            frameList.last().secondRollKnockedPins = knockedPins
+        } else {
+            frameList.last().bonusRollKnockedPins = knockedPins
+        }
     }
 
     private fun addKnockedPinsToFrameList(knockedPins: Int) {
         run breaking@{
-            frameList.forEach { frame ->
+            frameList.forEachIndexed { index, frame ->
                 when {
                     frame.firstRollKnockedPins == INITIAL_VALUE -> {
-                        if (knockedPins == TEN) {
+                        if (knockedPins == TEN && !lastFrame(index)) {
                             frame.secondRollKnockedPins = ZERO
                         }
                         frame.firstRollKnockedPins = knockedPins
@@ -70,6 +76,8 @@ class BowlingGame {
     ) = firstRollKnockedPins + secondRollKnockedPins <= TEN
 
     private fun firstRollInLastFrame() = frameList.last().firstRollKnockedPins
+    private fun secondRollInLastFrame() = frameList.last().secondRollKnockedPins
+    private fun lastFrame(index: Int) = index == frameList.size - ONE
 
     companion object {
         const val INITIAL_VALUE = -1

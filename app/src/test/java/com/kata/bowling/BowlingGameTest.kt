@@ -168,6 +168,31 @@ class BowlingGameTest {
         game.roll(6)
     }
 
+    /**
+     * in other frames if the first roll is a strike second roll is not available
+     * but in last frame if the first roll is a strike then second roll is available
+     */
+    @Test
+    fun `given first attempt in 10th frame is a strike, when get frame list, the updated list returned is returned with initial value for second roll`() {
+        val expectedList = listOf(
+            Frame(5, 4),
+            Frame(10, 0),
+            Frame(10, 0),
+            Frame(9, 1),
+            Frame(8, 2),
+            Frame(7, 2),
+            Frame(6, 3),
+            Frame(3, 4),
+            Frame(5, 4),
+            Frame(10, -1),
+        )
+
+        roll(listOf(5, 4, 10, 10, 9, 1, 8, 2, 7, 2, 6, 3, 3, 4, 5, 4, 10))
+        val result = game.getFrameList()
+
+        assertThat(result).isEqualTo(expectedList)
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

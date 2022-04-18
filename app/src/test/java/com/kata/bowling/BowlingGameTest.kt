@@ -208,6 +208,19 @@ class BowlingGameTest {
         assertThat(expectedResult).isEqualTo(result)
     }
 
+    @Test
+    fun `given one pin knocked in 20 times, when score, then returns score 1`() {
+        val expectedResult = 1
+
+        game.roll(1)
+        for (i in 0..18) {
+            game.roll(0)
+        }
+        val result = game.score()
+
+        assertThat(expectedResult).isEqualTo(result)
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

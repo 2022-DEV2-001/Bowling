@@ -32,7 +32,7 @@ class BowlingGame {
     }
 
     fun score(): Int {
-        return 0
+        return frameList.sumOf { it.sum() }
     }
 
     private fun bonusRollAvailable() =

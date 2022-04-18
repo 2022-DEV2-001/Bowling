@@ -1,15 +1,20 @@
 package com.kata.bowling.ui.viewmodel
 
+import android.app.Application
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.kata.bowling.BowlingGame
 import com.kata.bowling.model.Frame
 import com.kata.bowling.repository.BowlingRepository
 import com.kata.bowling.repository.BowlingRepositoryImpl
+import com.kata.bowling.utils.GameException
+import com.kata.bowling.utils.ResourcesProvider
 import com.kata.bowling.utils.initialValues
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,6 +25,8 @@ class BowlingGameViewModelTest {
     private lateinit var bowlingGame: BowlingGame
     private lateinit var bowlingRepository: BowlingRepository
     private lateinit var viewModel: BowlingGameViewModel
+    private lateinit var context: Context
+    private lateinit var resourcesProvider: ResourcesProvider
 
     @Rule
     @JvmField
@@ -29,7 +36,9 @@ class BowlingGameViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
         bowlingRepository = BowlingRepositoryImpl(bowlingGame)
-        viewModel = BowlingGameViewModel(bowlingRepository = bowlingRepository)
+        context = mockk<Application>()
+        resourcesProvider = ResourcesProvider(context)
+        viewModel = BowlingGameViewModel(bowlingRepository = bowlingRepository, resourcesProvider)
     }
 
     @Test
@@ -44,5 +53,17 @@ class BowlingGameViewModelTest {
         viewModel.gameState.value?.forEach { result = it.frameList }
 
         assertThat(result).isEqualTo(frameList)
+    }
+
+    @Test
+    fun `given view model , when roll, then verify the exception thrown`() {
+        every { bowlingGame.roll(5) } throws GameException.MaxSizeReached
+        every { context.getString(any()) } returns "An error occurred"
+        viewModel.roll(5)
+
+        var result = ""
+        viewModel.gameState.value?.forEach { result = it.error }
+
+        assertThat(result).isNotEmpty()
     }
 }

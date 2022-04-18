@@ -285,6 +285,12 @@ class BowlingGameTest {
         roll(listOf(10, 10, 10, 9, 1, 3, 4, 2, 6, 7, 3, 9, 1, 5, 4, 4, 4, 4, 4))
     }
 
+    @Test(expected = GameException.FramesNotFilled::class)
+    fun `given only few frames filled, when score, then throw exception`() {
+        roll(listOf(10, 10, 10, 9))
+        game.score()
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

@@ -34,19 +34,21 @@ class BowlingGame {
     }
 
     fun score(): Int {
-        var score = 0
-        frameList.forEachIndexed { index, frame ->
-            score += when {
-                frame.hasStrike() -> {
-                    scoreStrike(index)
+        if (maxLengthReached()) {
+            var score = 0
+            frameList.forEachIndexed { index, frame ->
+                score += when {
+                    frame.hasStrike() -> {
+                        scoreStrike(index)
+                    }
+                    frame.hasSpare() -> {
+                        scoreSpare(index)
+                    }
+                    else -> frame.sum()
                 }
-                frame.hasSpare() -> {
-                    scoreSpare(index)
-                }
-                else -> frame.sum()
             }
-        }
-        return score
+            return score
+        } else throw GameException.FramesNotFilled
     }
 
     private fun bonusRollAvailable() =

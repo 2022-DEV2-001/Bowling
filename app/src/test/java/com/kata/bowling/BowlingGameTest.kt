@@ -280,6 +280,11 @@ class BowlingGameTest {
         assertThat(result).isEqualTo(expectedResult)
     }
 
+    @Test(expected = GameException.MaxSizeReached::class)
+    fun `given rolls with excess attempt, when score, then throw exception`() {
+        roll(listOf(10, 10, 10, 9, 1, 3, 4, 2, 6, 7, 3, 9, 1, 5, 4, 4, 4, 4, 4))
+    }
+
     private fun roll(list: List<Int>) {
         list.forEach {
             game.roll(it)

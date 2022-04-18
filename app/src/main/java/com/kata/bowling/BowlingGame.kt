@@ -63,27 +63,48 @@ class BowlingGame {
     }
 
     private fun addKnockedPinsToFrameList(knockedPins: Int) {
-        run breaking@{
-            frameList.forEachIndexed { index, frame ->
-                when {
-                    frame.firstRollKnockedPins == INITIAL_VALUE -> {
-                        if (knockedPins == TEN && !lastFrame(index)) {
-                            frame.secondRollKnockedPins = ZERO
+        if (!maxLengthReached()) {
+            run breaking@{
+                frameList.forEachIndexed { index, frame ->
+                    when {
+                        frame.firstRollKnockedPins == INITIAL_VALUE -> {
+                            if (knockedPins == TEN && !lastFrame(index)) {
+                                frame.secondRollKnockedPins = ZERO
+                            }
+                            frame.firstRollKnockedPins = knockedPins
+                            return@breaking
                         }
-                        frame.firstRollKnockedPins = knockedPins
-                        return@breaking
-                    }
-                    frame.secondRollKnockedPins == INITIAL_VALUE -> {
-                        if (sumOfTwoRollsIsNotGreaterThanTen(
-                                frame.firstRollKnockedPins,
-                                knockedPins
-                            )
-                        ) {
-                            frame.secondRollKnockedPins = knockedPins
-                        } else throw GameException.SumOfPinsOutOfRange
-                        return@breaking
+                        frame.secondRollKnockedPins == INITIAL_VALUE -> {
+                            if (sumOfTwoRollsIsNotGreaterThanTen(
+                                    frame.firstRollKnockedPins,
+                                    knockedPins
+                                )
+                            ) {
+                                frame.secondRollKnockedPins = knockedPins
+                            } else throw GameException.SumOfPinsOutOfRange
+                            return@breaking
+                        }
                     }
                 }
+            }
+        } else throw GameException.MaxSizeReached
+    }
+
+    /**
+     * The maximum rolls for a game is 20 if the last frame does
+     * not has any strike or a spare
+     * else the maximum rolls for a game is 21
+     */
+    private fun maxLengthReached(): Boolean {
+        return when {
+            bonusRollAvailable() -> {
+                firstRollInLastFrame() != INITIAL_VALUE &&
+                    frameList.last().secondRollKnockedPins != INITIAL_VALUE &&
+                    frameList.last().bonusRollKnockedPins != INITIAL_VALUE
+            }
+            else -> {
+                firstRollInLastFrame() != INITIAL_VALUE &&
+                    frameList.last().secondRollKnockedPins != INITIAL_VALUE
             }
         }
     }

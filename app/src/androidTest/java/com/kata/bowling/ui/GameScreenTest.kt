@@ -98,6 +98,13 @@ class GameScreenTest {
             .assertIsDisplayed()
     }
 
+    @Test
+    fun shouldShowSnackBarWhenAnAttemptToAddPinsToFrameListAfterTheFrameIsFilled() {
+        roll(listOf(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10))
+        composeRule.onNodeWithText(composeRule.activity.getString(R.string.max_size_reached_error))
+            .assertIsDisplayed()
+    }
+
     private fun roll(knockedPinsList: List<Int>) {
         for (knockedPins in knockedPinsList) {
             composeRule.onNodeWithTag(PIN_SECTION_TEST_TAG)

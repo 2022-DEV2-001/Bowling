@@ -67,4 +67,13 @@ class BowlingRepositoryTest {
             bowlingGame.score()
         }
     }
+
+    @Test
+    fun `given bowling repository, when get score, verify score is returned`() {
+        every { bowlingGame.score() } returns 150
+
+        val result = bowlingRepository.getScore()
+
+        assertThat(result).isEqualTo(150)
+    }
 }

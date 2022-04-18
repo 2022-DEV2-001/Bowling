@@ -76,4 +76,13 @@ class BowlingRepositoryTest {
 
         assertThat(result).isEqualTo(150)
     }
+
+    @Test
+    fun `given bowling repository, when reset frame list, verify reset frame list method is invoked `() {
+        bowlingRepository.resetFrameList()
+
+        verify {
+            bowlingGame.resetFrameList()
+        }
+    }
 }

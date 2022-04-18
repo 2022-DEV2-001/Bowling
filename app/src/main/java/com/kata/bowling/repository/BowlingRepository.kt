@@ -6,4 +6,5 @@ interface BowlingRepository {
     fun getFrameList(): List<Frame>
     fun roll(knockedPins: Int)
     fun getScore(): Int
+    fun resetFrameList()
 }

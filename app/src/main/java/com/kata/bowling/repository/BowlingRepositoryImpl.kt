@@ -15,4 +15,8 @@ class BowlingRepositoryImpl(private val bowlingGame: BowlingGame) : BowlingRepos
     override fun getScore(): Int {
         return bowlingGame.score()
     }
+
+    override fun resetFrameList() {
+        bowlingGame.resetFrameList()
+    }
 }
